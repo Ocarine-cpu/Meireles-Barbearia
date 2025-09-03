@@ -1,0 +1,78 @@
+<?php require __DIR__ . '/includes/header.php'; ?>
+
+<!-- Hero -->
+<div class="px-4 py-5 text-center">
+  <h1 class="display-5 fw-bold">
+    Agende seu corte na <span class="text-primary">Meireles Barbearia</span>
+  </h1>
+
+  <div class="col-lg-8 mx-auto">
+    <p class="lead texto-secundario mb-4">
+      Escolha o profissional, o estilo e o melhor horário para você — rápido e sem complicação.
+    </p>
+
+    <img class="d-block mx-auto mb-4" src="#" alt="logo" width="80">
+
+    <!-- Card explicativo (fora do grid de botões) -->
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+      <div class="card sombra-suave shadow-sm rounded-3 mb-4 bg-body-secondary">
+        <div class="card-body text-start">
+          <h5 class="card-title fw-bold mb-3">Como funciona?</h5>
+          <ol class="mb-0">
+            <li>Crie sua conta ou faça login.</li>
+            <li>Escolha o barbeiro e o horário.</li>
+            <li>Confirme o agendamento e pronto!</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <a class="btn btn-primary btn-lg px-4 gap-3" href="#">Agendar agora</a>
+      <a class="btn btn-outline-secondary btn-lg px-4" href="#servicos">Ver serviços</a>
+    </div>
+  </div>
+</div>
+
+<!-- Serviços -->
+<section id="servicos" class="py-5">
+  <div class="row text-center">
+    <h2 class="fw-bold mb-5">Nossos Serviços</h2>
+
+    <div class="col-lg-4">
+      <div class="card mb-4 sombra-suave">
+        <div class="card-body">
+          <h4 class="card-title">Corte Simples</h4>
+          <p class="card-text texto-secundario">Lavagem básica e acabamento rápido.</p>
+          <h5 class="fw-bold">R$30</h5>
+          <a href="#" class="btn btn-outline-primary">Agendar</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card mb-4 sombra-suave border-primary">
+        <div class="card-body">
+          <h4 class="card-title">Corte Premium</h4>
+          <p class="card-text texto-secundario">Lavagem + hidratação, acabamento detalhado e barba inclusa.</p>
+          <h5 class="fw-bold">R$50</h5>
+          <a href="#" class="btn btn-primary">Agendar</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card mb-4 sombra-suave">
+        <div class="card-body">
+          <h4 class="card-title">Plano Mensal</h4>
+          <p class="card-text texto-secundario">Até 4 cortes no mês com agendamento prioritário.</p>
+          <h5 class="fw-bold">R$120</h5>
+          <a href="#" class="btn btn-outline-primary">Assinar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<?php require __DIR__ . '/includes/footer.php'; ?>
