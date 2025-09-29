@@ -3,8 +3,19 @@ require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/bd.php'; // Para buscar os dados do usuário após a 2FA
 
 // Verifica se há um ID de usuário na sessão aguardando 2FA
-if (!isset($_SESSION['2fa_user_id']) || !isset($_SESSION['2fa_code']) || !isset($_SESSION['2fa_email'])) {
+if (!isset($_SESSION['2fa_user_id']) || !isset($_SESSION['2fa_code']) || !isset($_SESSION['2fa_email']) || !isset($_SESSION['2fa_expiration'])) {
     header("Location: login.php"); // Redireciona se não houver 2FA pendente
+    exit;
+}
+
+// Verifica se o código expirou
+if (time() > $_SESSION['2fa_expiration']) {
+    // Limpa a sessão 2FA e redireciona para login com erro de expiração
+    unset($_SESSION['2fa_user_id']);
+    unset($_SESSION['2fa_code']);
+    unset($_SESSION['2fa_email']);
+    unset($_SESSION['2fa_expiration']);
+    header("Location: login.php?erro=2fa_expired");
     exit;
 }
 
@@ -38,8 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION['2fa_user_id']);
             unset($_SESSION['2fa_code']);
             unset($_SESSION['2fa_email']);
+            unset($_SESSION['2fa_expiration']);
 
-            header("Location: perfil.php"); // Redireciona para o perfil ou página inicial
+            header("Location: " . basePath() . "/index.php"); // Redireciona para a página inicial
             exit;
         } else {
             $erro = "Erro ao carregar dados do usuário.";
@@ -47,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION['2fa_user_id']);
             unset($_SESSION['2fa_code']);
             unset($_SESSION['2fa_email']);
+            unset($_SESSION['2fa_expiration']);
             header("Location: login.php?erro=user_not_found");
             exit;
         }
@@ -63,13 +76,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form class="p-4 border rounded-3 bg-body sombra-suave" method="post">
       <h1 class="h3 mb-3 fw-normal text-center">Verificação de Dois Fatores</h1>
       <p class="text-center">Um código de 6 dígitos foi enviado para o seu e-mail: <strong><?= htmlspecialchars($email_mascarado) ?></strong></p>
+      <p class="text-center small text-muted">O código expira em <?= round(($_SESSION['2fa_expiration'] - time()) / 60) ?> minutos.</p>
+
+      <?php if (isset($_GET['resend'])): ?>
+        <div class="alert alert-success">Um novo código foi enviado para o seu e-mail.</div>
+      <?php endif; ?>
 
       <?php if ($erro): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($erro) ?></div>
       <?php endif; ?>
 
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="codigo2fa" name="codigo_2fa" placeholder="Código de 6 dígitos" required maxlength="6">
+        <input type="text" class="form-control" id="codigo2fa" name="codigo_2fa" placeholder="Código de 6 dígitos" required maxlength="6" pattern="[0-9]{6}">
         <label for="codigo2fa">Código de Verificação</label>
       </div>
 

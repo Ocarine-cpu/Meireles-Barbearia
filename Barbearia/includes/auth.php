@@ -20,17 +20,18 @@ function currentUser(): ?array {
 }
 
 function isLoggedIn(): bool {
-    return isset($_SESSION['user']);
+    // O usuário está logado se a sessão 'user' existe E a 2FA foi verificada
+    // Se a sessão 'user' existe mas '2fa_verified' não, significa que ele está no meio do processo 2FA.
+    return isset($_SESSION['user']) && isset($_SESSION['2fa_verified']) && $_SESSION['2fa_verified'] === true;
 }
 
 function basePath(): string {
     // Detecta se está em localhost
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-    // Caminho base 
+    // Caminho base
     $path = '/barbearia'; // <-- nome da pasta do projeto
 
     // Retorna sempre URL absoluta
     return "http://{$host}{$path}";
 }
-
