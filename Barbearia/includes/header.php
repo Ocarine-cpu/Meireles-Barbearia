@@ -10,6 +10,9 @@ $caminhoBase = basePath();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Meireles Barbearia</title>
+  <!-- Font Awesome (ícones) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
 
   <!-- Tema inicial (evita flicker) -->
   <script>
@@ -43,14 +46,22 @@ $caminhoBase = basePath();
       <div class="collapse navbar-collapse" id="menuSuperior">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="<?= $caminhoBase ?>/index.php#servicos">Serviços</a>
+            <a class="nav-link" href="/Barbearia/meus_agendamentos.php">Meus Serviços</a>
+
+
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= $caminhoBase ?>/pages/agendamento.php">Agendamento</a>
+            <a class="nav-link" href="/Barbearia/agendamento.php">Agendamento</a>
+
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<?= $caminhoBase ?>/pages/contato.php">Contato</a>
           </li>
+           <?php if (isset($_SESSION['user']) && $_SESSION['user']['perfil'] === 'admin'): ?>
+    <li class="nav-item">
+      <a class="nav-link text-warning fw-semibold" href="<?= $caminhoBase ?>/admin.php">Painel do Dono</a>
+    </li>
+  <?php endif; ?>
         </ul>
 
 
@@ -79,6 +90,8 @@ $caminhoBase = basePath();
       </div>
     </div>
   </nav>
+
+
 </header>
 
 <!-- Conteúdo -->

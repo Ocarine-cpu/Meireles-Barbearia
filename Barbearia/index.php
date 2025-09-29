@@ -11,7 +11,8 @@
       Escolha o profissional, o estilo e o melhor horário para você — rápido e sem complicação.
     </p>
 
-    <img class="d-block mx-auto mb-4" src="#" alt="logo" width="80">
+    <img class="d-block mx-auto mb-4" src="logo.png" alt="logo" width="80">
+
 
     <!-- Card explicativo (fora do grid de botões) -->
     <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
@@ -29,8 +30,8 @@
 
     <!-- Botões -->
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a class="btn btn-primary btn-lg px-4 gap-3" href="#">Agendar agora</a>
-      <a class="btn btn-outline-secondary btn-lg px-4" href="#servicos">Ver serviços</a>
+      <a class="btn btn-outline-secondary btn-lg px-4" href="agendamento.php">Agendar agora</a>
+     <a class="btn btn-outline-secondary btn-lg px-4" href="agendamento.php">Ver serviços</a>
     </div>
   </div>
 </div>
@@ -44,9 +45,9 @@
       <div class="card mb-4 sombra-suave">
         <div class="card-body">
           <h4 class="card-title">Corte Simples</h4>
-          <p class="card-text texto-secundario">Lavagem básica e acabamento rápido.</p>
+          <p class="card-text texto-secundario">Corte De Cabelo.</p>
           <h5 class="fw-bold">R$30</h5>
-          <a href="#" class="btn btn-outline-primary">Agendar</a>
+          <a class="btn btn-outline-secondary btn-lg px-4" href="agendamento.php">Ver serviços</a>
         </div>
       </div>
     </div>
@@ -54,10 +55,10 @@
     <div class="col-lg-4">
       <div class="card mb-4 sombra-suave border-primary">
         <div class="card-body">
-          <h4 class="card-title">Corte Premium</h4>
-          <p class="card-text texto-secundario">Lavagem + hidratação, acabamento detalhado e barba inclusa.</p>
-          <h5 class="fw-bold">R$50</h5>
-          <a href="#" class="btn btn-primary">Agendar</a>
+          <h4 class="card-title">Corte comun</h4>
+          <p class="card-text texto-secundario">Corte De Cabelo, sombrancelha.</p>
+          <h5 class="fw-bold">R$35</h5>
+          <a class="btn btn-outline-secondary btn-lg px-4" href="agendamento.php">Ver serviços</a>
         </div>
       </div>
     </div>
@@ -65,10 +66,10 @@
     <div class="col-lg-4">
       <div class="card mb-4 sombra-suave">
         <div class="card-body">
-          <h4 class="card-title">Plano Mensal</h4>
-          <p class="card-text texto-secundario">Até 4 cortes no mês com agendamento prioritário.</p>
-          <h5 class="fw-bold">R$120</h5>
-          <a href="#" class="btn btn-outline-primary">Assinar</a>
+          <h4 class="card-title">Plano Premium</h4>
+          <p class="card-text texto-secundario">Corte De Cabelo, sombrancelha, barba.</p>
+          <h5 class="fw-bold">R$40</h5>
+          <a class="btn btn-outline-secondary btn-lg px-4" href="agendamento.php">Ver serviços</a>
         </div>
       </div>
     </div>
