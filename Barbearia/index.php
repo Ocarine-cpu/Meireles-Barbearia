@@ -11,7 +11,7 @@
       Escolha o profissional, o estilo e o melhor horário para você — rápido e sem complicação.
     </p>
 
-    <img class="d-block mx-auto mb-4" src="logo.png" alt="logo" width="80">
+   <img id="logo-site" class="d-block mx-auto mb-4 logo-site" src="/Barbearia/meireles_barbearia_logo-Photoroom.png" alt="logo Meireles Barbearia" width="150">
 
 
     <!-- Card explicativo (fora do grid de botões) -->
@@ -42,7 +42,7 @@
     <h2 class="fw-bold mb-5">Nossos Serviços</h2>
 
     <div class="col-lg-4">
-      <div class="card mb-4 sombra-suave">
+      <div class="card mb-4 sombra-suave border-primary">
         <div class="card-body">
           <h4 class="card-title">Corte Simples</h4>
           <p class="card-text texto-secundario">Corte De Cabelo.</p>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="col-lg-4">
-      <div class="card mb-4 sombra-suave">
+      <div class="card mb-4 sombra-suave border-primary">
         <div class="card-body">
           <h4 class="card-title">Plano Premium</h4>
           <p class="card-text texto-secundario">Corte De Cabelo, sombrancelha, barba.</p>

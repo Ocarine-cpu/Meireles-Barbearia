@@ -34,4 +34,5 @@ function basePath(): string {
 
     // Retorna sempre URL absoluta
     return "http://{$host}{$path}";
+
 }

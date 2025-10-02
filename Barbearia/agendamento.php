@@ -22,7 +22,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
       <!-- Corte Simples -->
       <div class="col">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm border-primary">
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Corte Simples</h5>
             <p class="card-text">Corte De Cabelo.</p>
@@ -34,19 +34,19 @@
 
       <!-- Corte Premium -->
       <div class="col">
-        <div class="card h-100 border-primary shadow">
+        <div class="card h-100 border-primary shadow border-primary">
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Corte Comun</h5>
             <p class="card-text">Corte De Cabelo, sombrancelha.</p>
             <h6 class="fw-bold">R$35</h6>
-            <button class="btn btn-primary selecionar-servico" data-servico="Corte Premium">Selecionar</button>
+            <button class="btn btn-outline-primary selecionar-servico" data-servico="Corte Premium">Selecionar</button>
           </div>
         </div>
       </div>
 
       <!-- Plano Mensal -->
       <div class="col">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm border-primary">
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Plano Mensal</h5>
             <p class="card-text">Corte De Cabelo, sombrancelha, barba.</p>

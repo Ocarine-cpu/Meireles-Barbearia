@@ -39,6 +39,16 @@ CREATE TABLE agendamentos (
   FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
 );
 
+CREATE TABLE two_factor_codes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    code_hash VARCHAR(255) NOT NULL,
+    expires_at INT NOT NULL,
+    used TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+);
+
 -- Usuário administrador padrão (senha deve ser hash depois)
 INSERT INTO usuarios 
 (nome_completo, data_nascimento, sexo, nome_materno, cpf, email, telefone, cep, endereco, login, senha, perfil)

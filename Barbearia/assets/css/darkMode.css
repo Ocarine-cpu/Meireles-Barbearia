@@ -57,3 +57,6 @@
   background-color: #66b2ff !important;
   color: #1e1e1e !important;
 }
+ [data-bs-theme="light"] .logo-site {
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}

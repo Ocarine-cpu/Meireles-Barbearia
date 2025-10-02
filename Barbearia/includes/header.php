@@ -37,7 +37,13 @@ $caminhoBase = basePath();
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top sombra-suave">
     <div class="container">
-      <a class="navbar-brand fw-semibold" href="<?= $caminhoBase ?>/index.php">Meireles Barbearia</a>
+
+      <a class="navbar-brand fw-semibold" href="<?= $caminhoBase ?>/index.php">
+  <img id="logo-topo" src="<?= $caminhoBase ?>/meireles_barbearia_logo-Photoroom.png" alt="Meireles Barbearia" height="50">
+ 
+</a>
+
+
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuSuperior" aria-controls="menuSuperior" aria-expanded="false" aria-label="Alternar navegação">
         <span class="navbar-toggler-icon"></span>
@@ -46,7 +52,11 @@ $caminhoBase = basePath();
       <div class="collapse navbar-collapse" id="menuSuperior">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/Barbearia/meus_agendamentos.php">Meus Serviços</a>
+            <a class="nav-link" href="<?= $usuario ? '/Barbearia/meus_agendamentos.php' : '/Barbearia/precisa_logar.php' ?>">
+  Meus Serviços
+</a>
+
+
 
 
           </li>
@@ -90,6 +100,7 @@ $caminhoBase = basePath();
       </div>
     </div>
   </nav>
+
 
 
 </header>

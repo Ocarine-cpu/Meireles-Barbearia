@@ -1,10 +1,11 @@
-// Troca de tema (claro/escuro) – aplicado em todas as páginas
 (function() {
   const CHAVE = 'mb-tema';
   const raiz = document.documentElement;
+  const logo = document.getElementById('logo-site');
 
   function aplicarTema(t) {
     raiz.setAttribute('data-bs-theme', t);
+    atualizarLogo(t);
   }
 
   function temaPreferido() {
@@ -12,6 +13,23 @@
     if (salvo === 'light' || salvo === 'dark') return salvo;
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
+
+function atualizarLogo(tema) {
+  const base = window.caminhoBase || '/barbearia';
+
+  const logoTopo = document.getElementById('logo-topo');
+  const logoConteudo = document.getElementById('logo-site');
+
+  const nome = (tema === 'dark')
+    ? "/meireles_barbearia_logo-Photoroom-dark.png"
+    : "/meireles_barbearia_logo-Photoroom.png";
+
+  if (logoTopo) logoTopo.src = base + nome;
+  if (logoConteudo) logoConteudo.src = base + nome;
+}
+
+
+
 
   function alternarTema() {
     const atual = raiz.getAttribute('data-bs-theme') || temaPreferido();
