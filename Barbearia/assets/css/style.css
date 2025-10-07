@@ -12,3 +12,7 @@ html, body { height: 100%; }
 .pequeno { font-size: 0.875em; }
 .sombra-suave { box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); }
 .borda-topo { border-top: 1px solid #dee2e6; }
+
+.img1 {
+  text-align: center;
+}

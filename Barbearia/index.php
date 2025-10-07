@@ -76,4 +76,28 @@
   </div>
 </section>
 
+<div class="container py-4 text-center">
+  <h4>Alguns dos nossos trabalhos</h4>
+  <div class="row mt-4">
+    <div class="col-md-4 mb-3">
+      <img src="/Barbearia/imagens/img1.jpg" class="img-fluid rounded shadow same-size" alt="Corte 1">
+    </div>
+    <div class="col-md-4 mb-3">
+      <img src="/Barbearia/imagens/img2.jpg" class="img-fluid rounded shadow same-size" alt="Corte 2">
+    </div>
+    <div class="col-md-4 mb-3">
+      <img src="/Barbearia/imagens/img3.jpg" class="img-fluid rounded shadow same-size" alt="Corte 3">
+    </div>
+  </div>
+</div>
+
+<style>
+  .same-size {
+    width: 100%;
+    height: 400px; /* ajuste conforme o visual desejado */
+    object-fit: cover; /* mantém o corte proporcional */
+    object-position: center; /* centraliza o foco da imagem */
+  }
+</style>
+
 <?php require __DIR__ . '/includes/footer.php'; ?>
