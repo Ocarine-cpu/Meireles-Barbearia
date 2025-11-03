@@ -1,15 +1,21 @@
 <?php
-session_start();
+// 1. CORREÇÃO: Verifica se a sessão já está ativa para evitar o Aviso
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . '/config/bd.php'; // conexão PDO
 
-if (!isset($_SESSION['user'])) {
+// Redireciona se o usuário não estiver logado
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) { // Verifica se 'user' e 'user['id']' existem
     header("Location: agendamento.php?erro=nao_logado");
     exit;
 }
 
-
+// 2. O ID de usuário é definido APENAS se a verificação acima for bem-sucedida
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_usuario = $_SESSION['user']['id'];
+    
+    $id_usuario = $_SESSION['user']['id']; // Assume que a chave é 'id'
+
     $nome_cliente = trim($_POST['nome']);
     $telefone = trim($_POST['telefone']);
     $data = $_POST['data'];

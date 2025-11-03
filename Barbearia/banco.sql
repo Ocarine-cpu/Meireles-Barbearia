@@ -1,43 +1,64 @@
--- Criação do banco de dados
+DROP DATABASE IF EXISTS barbearia;
 CREATE DATABASE barbearia CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE barbearia;
 
--- Tabela de usuários
+-- ============================
+-- TABELA: USUÁRIOS
+-- ============================
+
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nome_completo VARCHAR(100) NOT NULL,
     data_nascimento DATE NOT NULL,
-    sexo ENUM('Masculino', 'Feminino', 'Outro') NOT NULL,
+    sexo VARCHAR(15) NOT NULL,
     nome_materno VARCHAR(100) NOT NULL,
-    cpf CHAR(11) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    telefone VARCHAR(15) NOT NULL,
-    cep CHAR(8) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    telefone_celular VARCHAR(20),
+    telefone_fixo VARCHAR(20),
+    cep VARCHAR(10) NOT NULL,
     endereco VARCHAR(255) NOT NULL,
-    login CHAR(20) NOT NULL UNIQUE,
+    login VARCHAR(30) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     perfil ENUM('admin', 'cliente') DEFAULT 'cliente',
-    foto VARCHAR(255) NULL
+    foto VARCHAR(255) NULL,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    UNIQUE (cpf),
+    UNIQUE (login),
+    UNIQUE (email)
 );
 
--- Tabela de logs
+-- ============================
+-- TABELA: LOGS
+-- ============================
+
 CREATE TABLE logs (
     id_log INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
     acao VARCHAR(50) NOT NULL,
     segundo_fator VARCHAR(50),
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
 );
 
+-- ============================
+-- TABELA: AGENDAMENTOS
+-- ============================
+
 CREATE TABLE agendamentos (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  id_usuario INT NOT NULL,
-  nome_cliente VARCHAR(100) NOT NULL,
-  servico VARCHAR(100) NOT NULL,
-  data_hora DATETIME NOT NULL,
-  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    nome_cliente VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20) NOT NULL, 
+    servico VARCHAR(100) NOT NULL,
+    data_hora DATETIME NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
 );
+
+-- ============================
+-- TABELA: CÓDIGOS 2FA
+-- ============================
 
 CREATE TABLE two_factor_codes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -49,13 +70,15 @@ CREATE TABLE two_factor_codes (
     FOREIGN KEY (user_id) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
 );
 
--- Usuário administrador padrão (senha deve ser hash depois)
+-- ============================
+-- USUÁRIO ADMIN PADRÃO
+-- O campo 'data_cadastro' será preenchido automaticamente com o timestamp atual.
+-- ============================
+
 INSERT INTO usuarios 
-(nome_completo, data_nascimento, sexo, nome_materno, cpf, email, telefone, cep, endereco, login, senha, perfil)
+(nome_completo, data_nascimento, sexo, nome_materno, cpf, email, telefone_celular, telefone_fixo, cep, endereco, login, senha, perfil)
 VALUES
-('Administrador Master', '1999-09-04', 'Masculino', 'MaeAdmin', '40028922000', 
-'admin@barbearia.com', '+5521912345678', '22000000', 'Rua do Admin, 100, Rio de Janeiro - RJ',
+('Administrador Master', '1999-09-04', 'Masculino', 'MaeAdmin', '40028922000',
+'admin@barbearia.com', '+5521912345678', '+5521987654321', '22000000',
+'Rua do Admin, 100, Rio de Janeiro - RJ',
 'admin11', '$2y$10$80nVIhPquYCX76xDS9oEv.wn5oJTB0HGGOdD7N5X1odxQIRLEZTBm', 'admin');
-
-
--- Nota: A senha acima é um placeholder e deve ser substituída por uma senha segura hash.

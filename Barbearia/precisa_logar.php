@@ -1,10 +1,8 @@
 <?php
-// precisa_logar.php
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <!-- Define tema rapidamente antes da página aparecer -->
   <script>
     (function() {
       const CHAVE = 'mb-tema';
@@ -53,7 +51,6 @@
     }
   </style>
 
-  <!-- Script de troca de tema -->
   <script src="/Barbearia/assets/js/tema.js" defer></script>
 </head>
 

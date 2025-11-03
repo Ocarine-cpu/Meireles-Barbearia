@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/includes/header.php'; ?>
 
-<!-- Hero -->
+<!-- Hero (Bootstrap) -->
 <div class="px-4 py-5 text-center">
   <h1 class="display-5 fw-bold">
     Agende seu corte na <span class="text-primary">Meireles Barbearia</span>
@@ -14,7 +14,7 @@
    <img id="logo-site" class="d-block mx-auto mb-4 logo-site" src="/Barbearia/meireles_barbearia_logo-Photoroom.png" alt="logo Meireles Barbearia" width="150">
 
 
-    <!-- Card explicativo (fora do grid de botões) -->
+    <!-- Card explicativo -->
     <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
       <div class="card sombra-suave shadow-sm rounded-3 mb-4 bg-body-secondary">
         <div class="card-body text-start">
@@ -94,9 +94,9 @@
 <style>
   .same-size {
     width: 100%;
-    height: 400px; /* ajuste conforme o visual desejado */
-    object-fit: cover; /* mantém o corte proporcional */
-    object-position: center; /* centraliza o foco da imagem */
+    height: 400px; 
+    object-fit: cover; 
+    object-position: center; 
   }
 </style>
 
