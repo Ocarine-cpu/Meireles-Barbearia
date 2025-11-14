@@ -1,21 +1,17 @@
-/* Tema escuro */
 [data-bs-theme="dark"] {
   background-color: #1e1e1e !important;
   color: #f1f1f1 !important;
 }
 
-/* Navbar */
 [data-bs-theme="dark"] .navbar {
   background-color: #1f1f1f !important;
 }
 
-/* Cards */
 [data-bs-theme="dark"] .card {
   background-color: #1e1e1e !important;
   color: #f1f1f1 !important;
 }
 
-/* Links */
 [data-bs-theme="dark"] a,
 [data-bs-theme="dark"] .btn-link {
   color: #66b2ff !important;
@@ -34,9 +30,8 @@
   color: #e0e0e0 !important;
 }
 
-/* Botão primário no tema escuro */
 [data-bs-theme="dark"] .btn-primary {
-  background-color: #0d6efd !important; /* azul */
+  background-color: #0d6efd !important; 
   color: #ffffff !important;            /* texto branco */
   border-color: #0a58ca !important;
 }

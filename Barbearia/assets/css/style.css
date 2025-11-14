@@ -1,6 +1,6 @@
 html, body { height: 100%; }
 
-/* Compensa a navbar fixa sem usar px fixo */
+
 .conteudo-ajustado {
   padding-top: calc(56px + 2rem);
 }
@@ -15,4 +15,23 @@ html, body { height: 100%; }
 
 .img1 {
   text-align: center;
+}
+
+.btn-admin-outline {
+    padding: 8px 22px;
+    border: 2px solid #0d6efd; 
+    border-radius: 999px;      
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #0d6efd;
+    background: transparent;
+    transition: .25s ease;
+}
+
+.btn-admin-outline:hover {
+    background: #0a64ea;
+    color: white;
+    box-shadow: 0 0 10px rgb(12, 99, 231);
+    transform: scale(1.04);
 }

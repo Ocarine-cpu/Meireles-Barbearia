@@ -9,21 +9,20 @@
     color: inherit !important;
   }
 
-  /* Ícones */
   #contato .icon-whatsapp {
-    color: #25D366 !important; /* Verde oficial do WhatsApp */
+    color: #25D366 !important; /* Verde zapzap */
   }
 
   #contato .icon-location {
-    color: #e63946 !important; /* Vermelho estilo marcador de mapa */
+    color: #e63946 !important; 
   }
 
   #contato .icon-clock {
-    color: #1e90ff !important; /* Azul estilo ícone de relógio */
+    color: #1e90ff !important; 
   }
 
   #contato .icon-warning {
-    color: #ffc107 !important; /* Amarelo padrão Bootstrap (ainda usado nas redes sociais) */
+    color: #ffc107 !important; /* Amarelo padrão do Bootstrap */
   }
 </style>
 
@@ -33,7 +32,7 @@
 
     <div class="row justify-content-center g-4">
 
-      <!-- WhatsApp -->
+      <!-- ZAP ZAP -->
       <div class="col-md-3 text-center">
         <a href="https://wa.me/5521982030713" target="_blank" class="text-decoration-none icon-whatsapp">
           <i class="fab fa-whatsapp fa-2x mb-2"></i>

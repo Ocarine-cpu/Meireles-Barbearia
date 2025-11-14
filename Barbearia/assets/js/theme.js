@@ -38,10 +38,7 @@ function atualizarLogo(tema) {
     aplicarTema(proximo);
   }
 
-  // Garante estado coerente
   aplicarTema(temaPreferido());
-
-  // Delegação para qualquer botão com data-tema-toggle
   document.addEventListener('click', function(e) {
     const alvo = e.target.closest('[data-tema-toggle]');
     if (alvo) {
@@ -50,7 +47,6 @@ function atualizarLogo(tema) {
     }
   });
 
-  // Se o usuário não escolheu nada, seguir o sistema
   if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
       if (!localStorage.getItem(CHAVE)) aplicarTema(temaPreferido());

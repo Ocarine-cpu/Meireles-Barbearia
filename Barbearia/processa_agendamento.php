@@ -1,21 +1,17 @@
 <?php
-// 1. CORREÇÃO: Verifica se a sessão já está ativa para evitar o Aviso
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once __DIR__ . '/config/bd.php'; // conexão PDO
+require_once __DIR__ . '/config/bd.php'; 
 
-// Redireciona se o usuário não estiver logado
-if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) { // Verifica se 'user' e 'user['id']' existem
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) { 
     header("Location: agendamento.php?erro=nao_logado");
     exit;
 }
 
-// 2. O ID de usuário é definido APENAS se a verificação acima for bem-sucedida
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    $id_usuario = $_SESSION['user']['id']; // Assume que a chave é 'id'
-
+    $id_usuario = $_SESSION['user']['id']; 
     $nome_cliente = trim($_POST['nome']);
     $telefone = trim($_POST['telefone']);
     $data = $_POST['data'];
@@ -28,12 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data_hora = new DateTime("$data $hora");
 
-    // Define duração do corte: 1h30m
     $duracao = new DateInterval('PT1H30M');
     $fim_agendamento = clone $data_hora;
     $fim_agendamento->add($duracao);
 
-    // Verifica conflitos
     $stmt = $pdo->prepare("
         SELECT COUNT(*) FROM agendamentos
         WHERE data_hora < :fim_agendamento
@@ -46,12 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conflitos = $stmt->fetchColumn();
 
     if ($conflitos > 0) {
-        // Horário ocupado
         header("Location: agendamento.php?erro=horario_ocupado");
         exit;
     }
 
-    // Se não tem conflito, insere normalmente
     try {
         $stmt = $pdo->prepare("INSERT INTO agendamentos (id_usuario, nome_cliente, telefone, servico, data_hora) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$id_usuario, $nome_cliente, $telefone, $servico, $data_hora->format('Y-m-d H:i:s')]);

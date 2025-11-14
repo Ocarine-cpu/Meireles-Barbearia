@@ -18,23 +18,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$login]);
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Verifica se o login e senha estão corretos
         if ($usuario && password_verify($senha, $usuario['senha'])) {
 
-            // 1. Gerar código e hash
             $codigo_2fa = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             $codigo_hash = password_hash($codigo_2fa, PASSWORD_DEFAULT);
             $expiracao = time() + 300; // 5 minutos
 
-            // 2. Salvar no banco
             $stmt = $pdo->prepare("INSERT INTO two_factor_codes (user_id, code_hash, expires_at) VALUES (?, ?, ?)");
             $stmt->execute([$usuario['id_usuario'], $codigo_hash, $expiracao]);
 
-            // 3. Guardar ID do usuário e o código SIMULADO na sessão (apenas para testes)
             $_SESSION['2fa_user_id'] = $usuario['id_usuario'];
             $_SESSION['codigo_2fa_simulado'] = $codigo_2fa;
 
-            // 4. Redirecionar para página de verificação
             header("Location: 2fa_verificar.php");
             exit;
 

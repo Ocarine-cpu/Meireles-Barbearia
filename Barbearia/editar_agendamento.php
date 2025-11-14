@@ -19,11 +19,11 @@ if ($id <= 0) {
 // Busca o agendamento
 // ==============================
 if ($perfil === 'admin') {
-    // Admin pode editar qualquer agendamento
+
     $stmt = $pdo->prepare("SELECT * FROM agendamentos WHERE id = ?");
     $stmt->execute([$id]);
 } else {
-    // Cliente só pode editar o próprio
+
     $stmt = $pdo->prepare("SELECT * FROM agendamentos WHERE id = ? AND id_usuario = ?");
     $stmt->execute([$id, $id_usuario]);
 }

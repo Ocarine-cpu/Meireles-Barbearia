@@ -1,5 +1,4 @@
 <?php
-// Configurações do banco
 $host = '127.0.0.1';
 $dbname = 'barbearia';
 $user = 'root';
@@ -13,3 +12,4 @@ try {
 } catch (PDOException $e) {
     die("Erro na conexão com o banco: " . $e->getMessage());
 }
+

@@ -64,7 +64,6 @@ try {
                         <td><?= date('d/m/Y H:i', strtotime($ag['data_hora'])) ?></td>
                         <td><?= date('d/m/Y H:i', strtotime($ag['criado_em'])) ?></td>
                         <td>
-                            <!-- O admin pode editar/excluir qualquer agendamento -->
                             <?php if ($perfil === 'admin' || $ag['id_usuario'] == $_SESSION['user']['id']): ?>
                                 <a href="editar_agendamento.php?id=<?= $ag['id'] ?>" class="btn btn-sm btn-warning">Editar</a>
                                 <a href="cancelar_agendamento.php?id=<?= $ag['id'] ?>"

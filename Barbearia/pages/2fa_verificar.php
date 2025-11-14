@@ -11,8 +11,12 @@ $pdo = new PDO("mysql:host=localhost;dbname=barbearia;charset=utf8mb4", "root", 
 
 $user_id = $_SESSION['2fa_user_id'];
 
-// Recupera dados do usuário (apenas os campos existentes)
-$stmt = $pdo->prepare("SELECT id_usuario, nome_materno, data_nascimento, cep, perfil FROM usuarios WHERE id_usuario = ?");
+$stmt = $pdo->prepare("
+    SELECT id_usuario, nome_materno, data_nascimento, cep, perfil,
+           login, nome_completo, foto
+    FROM usuarios 
+    WHERE id_usuario = ?
+");
 $stmt->execute([$user_id]);
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -21,27 +25,30 @@ if (!$usuario) {
     exit;
 }
 
-// Gera pergunta aleatória uma única vez por sessão
-if (!isset($_SESSION['pergunta_2fa'])) {
+function gerarPergunta()
+{
     $perguntas = [
-        'nome_materno' => 'Qual o nome da sua mãe?',
+        'nome_materno'   => 'Qual o nome da sua mãe?',
         'data_nascimento' => 'Qual a data do seu nascimento?',
-        'cep' => 'Qual o CEP do seu endereço?'
+        'cep'            => 'Qual o CEP do seu endereço?'
     ];
 
     $chaves = array_keys($perguntas);
     $campo = $chaves[array_rand($chaves)];
 
-    $_SESSION['pergunta_2fa'] = [
+    return [
         'campo' => $campo,
-        'texto' => $perguntas[$campo],
-        'tentativas' => 0
+        'texto' => $perguntas[$campo]
     ];
+}
+
+if (!isset($_SESSION['pergunta_2fa'])) {
+    $_SESSION['pergunta_2fa'] = gerarPergunta();
+    $_SESSION['tentativas_2fa'] = 0;
 }
 
 $erro = null;
 
-// Verifica envio do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $resposta = trim($_POST['resposta']);
     $campo = $_SESSION['pergunta_2fa']['campo'];
@@ -49,62 +56,92 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($resposta === '') {
         $erro = "Por favor, preencha a resposta.";
     } else {
-        $_SESSION['pergunta_2fa']['tentativas']++;
+        $_SESSION['tentativas_2fa']++;
 
         $valorCorreto = $usuario[$campo];
+        $correto = false;
 
-        // Normaliza formatos de data e CEP
         if ($campo === 'data_nascimento') {
-            $valorCorreto = date('d/m/Y', strtotime($valorCorreto));
+            $convertida = date('Y-m-d', strtotime(str_replace('/', '-', $resposta)));
+            $valorCorreto = date('Y-m-d', strtotime($valorCorreto));
+            $correto = ($convertida === $valorCorreto);
+        }
+        elseif ($campo === 'cep') {
+            $correto = preg_replace('/\D/', '', $resposta) === preg_replace('/\D/', '', $valorCorreto);
+        }
+        else {
+            $correto = (strcasecmp($resposta, $valorCorreto) === 0);
         }
 
-        // Comparação case-insensitive
-        if (strcasecmp($resposta, $valorCorreto) === 0) {
-
-            // ✅ Login bem-sucedido — cria sessão do usuário
+        if ($correto) {
             $_SESSION['user'] = [
                 'id'     => $usuario['id_usuario'],
-                'login'  => 'usuario_' . $usuario['id_usuario'], // apenas para exibir algo
-                'nome'   => 'Usuário ' . $usuario['id_usuario'], // pode mudar depois
-                'perfil' => $usuario['perfil'] ?? 'cliente'
+                'login'  => $usuario['login'],
+                'nome'   => $usuario['nome_completo'],
+                'perfil' => $usuario['perfil'],
+                'foto'   => $usuario['foto'] ?? null
             ];
 
-            $_SESSION['2fa_verified'] = true;
+            $log = $pdo->prepare("
+                INSERT INTO logs (id_usuario, acao, segundo_fator)
+                VALUES (?, 'login_2fa', ?)
+            ");
+            $log->execute([$usuario['id_usuario'], $_SESSION['pergunta_2fa']['texto']]);
 
-            // Limpa variáveis temporárias
-            unset($_SESSION['2fa_user_id'], $_SESSION['codigo_2fa_simulado'], $_SESSION['pergunta_2fa']);
+            unset($_SESSION['2fa_user_id'], $_SESSION['pergunta_2fa'], $_SESSION['tentativas_2fa']);
 
-            // ✅ Redireciona para a página inicial logado
             header("Location: ../index.php");
             exit;
         } else {
-            if ($_SESSION['pergunta_2fa']['tentativas'] >= 3) {
-                // 3 tentativas erradas → volta ao login
-                unset($_SESSION['2fa_user_id'], $_SESSION['codigo_2fa_simulado'], $_SESSION['pergunta_2fa']);
+
+            if ($_SESSION['tentativas_2fa'] >= 3) {
+                unset($_SESSION['pergunta_2fa'], $_SESSION['2fa_user_id'], $_SESSION['tentativas_2fa']);
                 $_SESSION['erro_login'] = "3 tentativas sem sucesso! Favor realizar Login novamente.";
                 header("Location: login.php");
                 exit;
             }
 
-            $erro = "Resposta incorreta. Tentativas restantes: " . (3 - $_SESSION['pergunta_2fa']['tentativas']);
+            
+            $_SESSION['pergunta_2fa'] = gerarPergunta();
+            $erro = "Resposta incorreta. Tentativas restantes: " . (3 - $_SESSION['tentativas_2fa']);
         }
     }
 }
+
+require __DIR__ . '/../includes/header.php';
 ?>
 
-<?php require __DIR__ . '/../includes/header.php'; ?>
+<!-- Toasts do Bootstrap -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <?php if ($erro): ?>
+  <div id="toastErro" class="toast align-items-center text-bg-danger border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        <?= htmlspecialchars($erro) ?>
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+  <?php endif; ?>
+</div>
 
+<!-- Conteúdo principal -->
 <div class="d-flex justify-content-center align-items-center" style="min-height:80vh;">
-  <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+  <div class="col-11 col-sm-8 col-md-6 col-lg-4 fade-in">
     <form class="p-4 border rounded-3 bg-body sombra-suave" method="post">
-      <h1 class="h4 mb-3 fw-normal text-center">Verificação 2FA</h1>
+      <h1 class="h4 mb-3 fw-bold text-center">Verificação 2FA</h1>
 
-      <?php if ($erro): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($erro) ?></div>
-      <?php endif; ?>
+      <p class="text-center text-secondary">
+        Tentativa <strong><?= $_SESSION['tentativas_2fa'] + 1 ?></strong> de 3
+      </p>
 
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="resposta" name="resposta" placeholder="Resposta" required>
+        <input 
+            type="text" 
+            class="form-control <?= $erro ? 'is-invalid' : '' ?>" 
+            id="resposta" 
+            name="resposta"
+            placeholder="Resposta" required>
         <label for="resposta"><?= htmlspecialchars($_SESSION['pergunta_2fa']['texto']) ?></label>
       </div>
 
@@ -112,5 +149,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
   </div>
 </div>
+
+<style>
+.fade-in {
+    animation: fade .6s ease-in-out;
+}
+@keyframes fade {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toastErro = document.getElementById('toastErro');
+    if (toastErro) {
+        const toast = new bootstrap.Toast(toastErro);
+        toast.show();
+    }
+});
+</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

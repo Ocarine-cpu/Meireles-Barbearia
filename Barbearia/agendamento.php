@@ -18,7 +18,6 @@
 <p class="text-center texto-secundario mb-5">Escolha o tipo de corte e preencha seus dados</p>
     
 
-    <!-- Tipos de cortes -->
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
       <!-- Corte Simples -->
       <div class="col">
@@ -36,7 +35,7 @@
       <div class="col">
         <div class="card h-100 border-primary shadow border-primary">
           <div class="card-body text-center">
-            <h5 class="card-title fw-bold">Corte Comun</h5>
+            <h5 class="card-title fw-bold">Corte Premium</h5>
             <p class="card-text">Corte De Cabelo, sombrancelha.</p>
             <h6 class="fw-bold">R$35</h6>
             <button class="btn btn-outline-primary selecionar-servico" data-servico="Corte Premium">Selecionar</button>
@@ -93,7 +92,6 @@
     </div>
   </div>
 
-  <!-- Script para preencher o campo de serviço ao clicar -->
   <script>
     document.querySelectorAll('.selecionar-servico').forEach(button => {
       button.addEventListener('click', () => {

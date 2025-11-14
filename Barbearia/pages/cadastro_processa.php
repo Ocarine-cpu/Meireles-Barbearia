@@ -2,25 +2,36 @@
 require_once __DIR__ . '/../config/bd.php'; 
 require_once __DIR__ . '/../includes/auth.php';
 
-global $pdo; 
+session_start();
+global $pdo;
+function erro($mensagem) {
+    header("Location: cadastro.php?msg=" . urlencode($mensagem) . "&tipo=danger");
+    exit;
+}
+
+function sucesso($mensagem) {
+    header("Location: login.php?msg=" . urlencode($mensagem) . "&tipo=success");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $nome  = trim($_POST['nome']);
     $data  = $_POST['data_nascimento'];
     $sexo  = $_POST['sexo'];
     $mae   = trim($_POST['nome_materno']);
     $cpf   = preg_replace('/\D/', '', $_POST['cpf']);
     $email = trim($_POST['email']);
-    $cel   = preg_replace('/\D/', '', $_POST['telefone_celular']); // Mantém apenas dígitos
-    $fixo  = preg_replace('/\D/', '', $_POST['telefone_fixo']);   // Mantém apenas dígitos
-    $cep   = preg_replace('/\D/', '', $_POST['cep']); // Garante que o CEP também seja limpo
+    $cel   = preg_replace('/\D/', '', $_POST['telefone_celular']);
+    $fixo  = preg_replace('/\D/', '', $_POST['telefone_fixo']);
+    $cep   = preg_replace('/\D/', '', $_POST['cep']);
     $end   = trim($_POST['endereco']);
     $login = trim($_POST['login']);
     $senha = $_POST['senha'];
     $confirma = $_POST['confirma_senha'];
 
     if ($senha !== $confirma) {
-        die("As senhas não conferem. <a href='cadastro.php'>Voltar</a>");
+        erro("As senhas não conferem.");
     }
 
     $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
@@ -29,34 +40,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE login = ?");
         $stmt->execute([$login]);
         if ($stmt->fetch()) {
-            die("Login já existente. <a href='cadastro.php'>Tente outro</a>");
+            erro("Este login já está sendo utilizado.");
         }
 
         $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE cpf = ?");
         $stmt->execute([$cpf]);
         if ($stmt->fetch()) {
-            die("CPF já cadastrado. <a href='cadastro.php'>Tente outro</a>");
+            erro("Este CPF já está cadastrado.");
         }
 
         $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
-            die("E-mail já cadastrado. <a href='cadastro.php'>Tente outro</a>");
+            erro("Este e-mail já está cadastrado.");
         }
 
 
         $stmt = $pdo->prepare("INSERT INTO usuarios 
-          (nome_completo, data_nascimento, sexo, nome_materno, cpf, email, telefone_celular, telefone_fixo, cep, endereco, login, senha, perfil)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'cliente')");
+            (nome_completo, data_nascimento, sexo, nome_materno, cpf, email, telefone_celular, telefone_fixo, cep, endereco, login, senha, perfil)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'cliente')");
 
         $stmt->execute([$nome, $data, $sexo, $mae, $cpf, $email, $cel, $fixo, $cep, $end, $login, $senhaHash]);
 
-        header("Location: login.php?sucesso=1");
-        exit;
+        sucesso("Cadastro realizado com sucesso! Faça login para continuar.");
+
     } catch (PDOException $e) {
         error_log("Erro de PDO em cadastro_processa.php: " . $e->getMessage());
-        die("Erro no banco: Não foi possível completar o cadastro. Por favor, tente novamente mais tarde.");
+        erro("Erro interno no servidor. Tente novamente mais tarde.");
     }
+
 } else {
     header("Location: cadastro.php");
     exit;

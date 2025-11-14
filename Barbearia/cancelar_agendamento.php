@@ -19,11 +19,11 @@ if ($id_agendamento <= 0) {
 // Verifica se o agendamento existe e pertence ao usuário
 // ==============================
 if ($perfil === 'admin') {
-    // Admin pode excluir qualquer um
+
     $stmt = $pdo->prepare("SELECT * FROM agendamentos WHERE id = ?");
     $stmt->execute([$id_agendamento]);
 } else {
-    // Cliente só pode excluir o próprio
+
     $stmt = $pdo->prepare("SELECT * FROM agendamentos WHERE id = ? AND id_usuario = ?");
     $stmt->execute([$id_agendamento, $id_usuario]);
 }

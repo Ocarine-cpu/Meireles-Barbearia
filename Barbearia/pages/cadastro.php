@@ -92,7 +92,6 @@ require __DIR__ . '/../includes/header.php';
         return valor.replace(/\D/g, '');
     }
 
-    // --- MÁSCARA DE CPF ---
     document.getElementById('cpf').addEventListener('input', function (e) {
         let v = limparNumeros(e.target.value);
   
@@ -135,7 +134,7 @@ require __DIR__ . '/../includes/header.php';
         e.target.value = '+55 ' + v;
     });
 
-    // Telefone Fixo (Essa parte é opcional, então não utiliza muito) ---
+    // Telefone Fixo (Essa parte é opcional, então não vamos utilizar muito) ---
     document.getElementById('fixo').addEventListener('input', function (e) {
         let v_completo = e.target.value;
         let v = limparNumeros(v_completo);

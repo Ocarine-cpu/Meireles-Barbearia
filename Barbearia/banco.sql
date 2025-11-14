@@ -82,3 +82,11 @@ VALUES
 'admin@barbearia.com', '+5521912345678', '+5521987654321', '22000000',
 'Rua do Admin, 100, Rio de Janeiro - RJ',
 'admin11', '$2y$10$80nVIhPquYCX76xDS9oEv.wn5oJTB0HGGOdD7N5X1odxQIRLEZTBm', 'admin');
+
+-- =============================================================================================|
+--                                                                                              |
+-- Querido professor lindo, as paradas estão salvas aqui não por descuido, mas pra nós, burros, |
+-- que trabalhamos em equipe e ficamos mudando uma porrada de coisa, sabermos as informações    |
+-- do admin, e não perder essa budega. Beijos no seu coração <3                                 |
+--                                                                                              |
+-- =============================================================================================|

@@ -5,7 +5,6 @@ try {
   $pdo = new PDO("mysql:host=localhost;dbname=barbearia;charset=utf8mb4", "root", "");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  // Busca os agendamentos com nome do cliente
   $stmt = $pdo->query("
     SELECT a.id, a.servico, a.data_hora, u.nome_completo
     FROM agendamentos a

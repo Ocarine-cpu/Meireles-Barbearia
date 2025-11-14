@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/bd.php';
 require_once __DIR__ . '/../lib/fpdf/fpdf.php'; // tem que ter a biblioteca FPDF rapaziada
+// Obs: eu acho que vai ficar salvo na pasta do projeto, mas tem que conferir.
 
 $usuario = currentUser();
 if (!$usuario || $usuario['perfil'] !== 'admin') {
@@ -11,7 +12,6 @@ if (!$usuario || $usuario['perfil'] !== 'admin') {
 $stmt = $pdo->query("SELECT nome_completo, email, telefone, cep, login FROM usuarios WHERE perfil = 'cliente' ORDER BY nome_completo ASC");
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Parte de criar o pdf:
 $pdf = new FPDF();
 $pdf->AddPage(); 
 $pdf->SetFont('Arial', 'B', 16); 
